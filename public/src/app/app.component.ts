@@ -9,13 +9,18 @@ import { HttpService } from './http.service';
 export class AppComponent {
   title = "Greg's app";
   tasks = [];
+  singleTask = {}
   constructor(private _httpService : HttpService) {
-    this.getTask();
+    // this.getTask();
     // this.getTasks(); 
   }
   getTask(){
     let tempObservable = this._httpService.getTask("5d275624ed829d15ac255b89");
-    tempObservable.subscribe(data => {console.log("Got the 1 task:", data)});
+    tempObservable.subscribe(data => {
+      console.log("Got the 1 task:", data);
+      console.log(data);
+      this.singleTask = data;
+    });
   }
   getTasks(){
     let tempObservable = this._httpService.getTasks();

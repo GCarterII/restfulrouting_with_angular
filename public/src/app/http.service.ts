@@ -14,7 +14,7 @@ export class HttpService {
     return this._http.get('/tasks/'+id)
   }
   constructor(private _http: HttpClient) {
-    this.getTasks();
-    this.getTask("5d275624ed829d15ac255b89");
+    // this.getTasks();
+    // this.getTask("5d275624ed829d15ac255b89");
    }
 }
