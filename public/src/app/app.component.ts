@@ -9,13 +9,14 @@ import { HttpService } from './http.service';
 export class AppComponent {
   title = "Greg's app";
   tasks = [];
-  singleTask = {}
+  singleTask = {};
+  clicked = '';
   constructor(private _httpService : HttpService) {
     // this.getTask();
     // this.getTasks(); 
   }
-  getTask(){
-    let tempObservable = this._httpService.getTask("5d275624ed829d15ac255b89");
+  getTask(id){
+    let tempObservable = this._httpService.getTask(id);
     tempObservable.subscribe(data => {
       console.log("Got the 1 task:", data);
       console.log(data);
@@ -28,5 +29,20 @@ export class AppComponent {
     this.tasks = data['data'];
     console.log(`lalalalala ${this.tasks}`)
   });
+  }
+  onButtonClick(): void { 
+    console.log(`Click event is working`);
+    this.clicked = 'OUCH! YOU DONE CLICKED ME!';
+  }
+  onButtonClickParam(num: Number): void { 
+    console.log(`Click event is working with num param: ${num}`);
+    this.clicked = num.toString()
+  }
+  onButtonClickParams(num: Number, str: String): void { 
+    console.log(`Click event is working with num param: ${num} and str param: ${str}`);
+  }
+  onButtonClickEvent(event: any): void { 
+    console.log(`Click event is working with event: ${event}`);
+    console.log(event);
   }
 }
