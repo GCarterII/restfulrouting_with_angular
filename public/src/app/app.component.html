@@ -2,21 +2,57 @@
 <div style="text-align:center">
   <h1>
     Welcome to {{ title }}!
+    <img width="30" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
   </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+  </div>
+  <h1 class="p">test</h1>
+<div *ngIf = "showAll == false; then AllTaskButton else HideTaskButton"></div>
+<ng-template #AllTaskButton>
+  <button (click)="getTasksButt()">All Tasks</button>
+</ng-template>
+<ng-template #HideTaskButton>
+  <button (click)="hideTasksButt()">Hide Tasks</button>
+</ng-template>
+<div *ngFor = "let task of tasks"> 
+  {{task.title}} 
+  <button class="btn btn-secondary" (click) = "getTask(task._id)" >see details</button>
+  <p *ngIf = "errDel.id == task._id">{{errDel.message}}</p>
+  <button class="btn btn-danger" (click) = "deleteTask(task._id)" >delete it</button>
 </div>
-<button (click)="getTasks()">All Tasks</button>
-<div *ngFor = "let task of tasks"> {{task.title}} <button class="btn btn-secondary" (click) = "getTask(task._id)" >see details</button></div>
 
-<button (click)="getTask()">Guess what I do?</button>
+<div *ngIf = "singleTask.title != ''">
+  <div *ngIf = "editTask == false; then noEdit else Edit"></div>
+  <ng-template #noEdit>
+    <input type="text" name="singleTask.title"  [(ngModel)]="singleTask.title" readonly> 
+    <input type="text" name="singleTask.description"  [(ngModel)]="singleTask.description" readonly> 
+    <input type="text" name="singleTask.completed"  [(ngModel)]="singleTask.completed" readonly> 
+    <button class="btn btn-danger" (click) = "editTask = true" >edit it</button>
+  </ng-template>
+  <ng-template #Edit>
+    <input type="text" name="singleTask.title"  [(ngModel)]="singleTask.title" > 
+    <input type="text" name="singleTask.description"  [(ngModel)]="singleTask.description" > 
+    <input type="text" name="singleTask.completed"  [(ngModel)]="singleTask.completed" > 
+    <button class="btn btn-danger" (click) = "updatedTask(); editTask = false" >save it</button>
+    <button class="btn btn-secondary" (click) = "singleTask = {title: '', description: '', completed: ''}; editTask = false" >cancel it</button>
+  </ng-template>
+</div>
 
-<h1 *ngIf = "singleTask.message == 'Success'"> {{singleTask.data[0].title}} {{singleTask.data[0].description}}</h1>
+<form (submit)="createTask(newTask)">
+  <p>{{ newTask | json }}</p>
+  {{errTask.title}}
+  <input type="text" name="newTask.title" [(ngModel)]="newTask.title" />
+  {{errTask.description}}
+  <input type="text" name="newTask.description" [(ngModel)]="newTask.description" />
+  <input type="submit" value="Make That Task!" />
+</form>
 
+
+<!-- <button (click)="getTask()">Guess what I do?</button>
 <button (click)="onButtonClick()">Click me!</button>
 <h2 *ngIf = "clicked">{{ clicked }}</h2>
 <button (click)="onButtonClickParam(5)">Click me!</button>
 <button (click)="onButtonClickParams(5, 'hello')">Click me!</button>
-<button (click)="onButtonClickEvent($event)">Click me!</button>
+<button (click)="onButtonClickEvent($event)">Click me!</button> -->
 
 
 <!-- 

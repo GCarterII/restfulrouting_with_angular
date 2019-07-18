@@ -32,8 +32,8 @@ function printHelper(data){
 // Schemas
 //
 var TaskSchema = new mongoose.Schema({
-    title: {type: String},
-    description: {type: String, default: ""},
+    title: {type: String, required: [true, "Must include a Title"]},
+    description: {type: String, required: [true, "Must include a Description"]},
     completed: {type: Boolean, default: false},
     created_at: {type: Date, default: Date.now()},
     updated_at: {type: Date, default: Date.now()}
@@ -58,7 +58,7 @@ app.get('/tasks/:id', (req, res)=>{
 app.get('/tasks', (req, res)=>{
     Task.find({}, (err, task_list)=>{
         if(err){
-            console.log('Error in pull of all tasks:', err);
+            // console.log('Error in pull of all tasks:', err);
             res.json({message: "Error", error: err})
         } else {
             res.json({message: "Success", data: task_list})
@@ -67,15 +67,18 @@ app.get('/tasks', (req, res)=>{
 })
 
 app.post('/tasks', (req, res)=>{
-    console.log(req)
+    // console.log(req)
     var task = new Task(req.body);
     newTask = task.save((err)=>{
         if(err){
-            console.log('Error in post of new task:', err);
+            // console.log('Error in post of new task:', err);
             res.json({message: "Error", error: err});
         }
-        console.log(task._id)
-        res.redirect('/tasks/'+task._id)
+        else{
+            res.json({message: "Success"})
+        }
+        // console.log(task._id)
+        // res.redirect('/tasks/'+task._id)
     })
 })
 
@@ -86,7 +89,9 @@ app.put('/tasks/:id', (req, res)=>{
             console.log('Error in update of task:', err);
             res.json({message: "Error", error: err});
         }
-        res.redirect('/tasks/'+req.params.id)
+        else{
+            res.json({message: "Success", data: req.params})
+        }
     })
 })
 
@@ -96,7 +101,10 @@ app.delete('/tasks/:id', (req, res)=>{
             console.log('Error in delete of single task:', err);
             res.json({message: "Error", error: err});
         } 
-        res.redirect('/tasks')
+        else{
+            res.json({message: "Success"})
+        }
+        // res.redirect('/tasks')
     })
 })
 
